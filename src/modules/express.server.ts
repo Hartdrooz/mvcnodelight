@@ -1,8 +1,8 @@
 import 'reflect-metadata';
-import { inject, Container } from 'inversify';
+import { Container } from 'inversify';
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
-import { Express, Router, Request, Response, NextFunction } from 'express';
+import { Express, Request, Response, NextFunction } from 'express';
 
 import { ILogger, ILoggerService, LoggerConsole, LoggerService } from '../services';
 import { ReflectionApi } from './reflection';

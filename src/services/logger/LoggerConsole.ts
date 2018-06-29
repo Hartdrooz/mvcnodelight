@@ -10,16 +10,16 @@ export class LoggerConsole implements ILogger {
 		this._log = console.log;
 	}
 
-	debug(message: string) {
+	debug(message: string): void {
 		this._log(chalk.green(message));
 	}
-	info(message: string) {
+	info(message: string): void {
 		this._log(chalk.blue(message));
 	}
-	warning(message: string) {
+	warning(message: string): void {
 		this._log(chalk.yellow(message));
 	}
-	error(err: any) {
+	error(err: any): void {
 		this._log(chalk.red(err));
 	}
 }

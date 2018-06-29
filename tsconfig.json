@@ -3,7 +3,7 @@
 		"module": "commonjs",
 		"target": "es2015",
 		"lib": ["es6"],
-		"types": ["reflect-metadata"],
+		"types": ["reflect-metadata", "jest"],
 		"noImplicitAny": true,
 		"moduleResolution": "node",
 		"sourceMap": true,

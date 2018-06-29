@@ -19,6 +19,9 @@ public/css/main.css
 # Coverage reports
 coverage
 
+# Dist folder
+dist
+
 # API keys and secrets
 .env
 

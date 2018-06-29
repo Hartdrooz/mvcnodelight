@@ -11,16 +11,16 @@ export class LoggerService implements ILoggerService {
 		this._loggers = args;
 	}
 
-	debug(message: string) {
+	debug(message: string): void {
 		this.log(message, TraceLevel.Debug);
 	}
-	info(message: string) {
+	info(message: string): void {
 		this.log(message, TraceLevel.Info);
 	}
-	warning(message: string) {
+	warning(message: string): void {
 		this.log(message, TraceLevel.Warning);
 	}
-	error(err: any) {
+	error(err: any): void {
 		this.log(err, TraceLevel.Error);
 	}
 
