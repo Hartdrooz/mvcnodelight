@@ -1,0 +1,37 @@
+{
+	"name": "mvcnodelight",
+	"version": "1.0.0",
+	"description": "This is a light MVC framework for Node.js based on inversify-express.  For more functionalities use inversify-express.",
+	"main": "index.js",
+	"scripts": {
+		"build": "npm run ts-build && npm run generate-type",
+		"generate-type": "./node_modules/.bin/tsc -p .",
+		"ts-build": "tsc",
+		"tslint": "tslint -c tslint.json -p tsconfig.json"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Hartdrooz/mvcnodelight.git"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/Hartdrooz/mvcnodelight/issues"
+	},
+	"homepage": "https://github.com/Hartdrooz/mvcnodelight#readme",
+	"dependencies": {
+		"body-parser": "^1.18.3",
+		"chalk": "^2.4.1",
+		"express": "^4.16.3",
+		"inversify": "^4.13.0",
+		"reflect-metadata": "^0.1.12",
+		"typescript": "^2.9.2"
+	},
+	"devDependencies": {
+		"@types/body-parser": "^1.17.0",
+		"@types/express": "^4.16.0",
+		"concurrently": "^3.6.0",
+		"tslint": "^5.10.0"
+	}
+}
