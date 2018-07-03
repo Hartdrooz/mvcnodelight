@@ -28,6 +28,9 @@ export class HomeController implements IController {
 }
 
 export class WebServer extends ExpressServer {
+	setStaticFolder(): string[] {
+		return null;
+	}
 	getPort() {
 		return this.Port;
 	}

@@ -38,6 +38,7 @@ export abstract class ExpressServer {
 	abstract registerApplicationDependencies(container: Container): void;
 	abstract errorHandler(err: any, req: Request, res: Response, next: NextFunction): void;
 	abstract setViewEngine(app: Express): void;
+	abstract setStaticFolder(): Array<string>;
 	abstract registerMiddleware(app: Express): void;
 
 	// Protected function
@@ -66,6 +67,19 @@ export abstract class ExpressServer {
 
 		// Set the view engine in case of a website
 		this.setViewEngine(this._app);
+
+		// Get all static folders to set in the express engine
+		const folders = this.setStaticFolder();
+		if (folders) {
+			folders.forEach(f => {
+				this._app.use(express.static(f));
+			});
+		}
+
+		// Start the server
+		this._app.listen(this.Port, () => {
+			console.log(`Server listening on port ${this.Port}`);
+		});
 	}
 
 	private registerDependencies(): void {

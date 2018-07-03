@@ -1,8 +1,9 @@
 {
-	"name": "mvcnodelight",
-	"version": "1.0.0",
+	"name": "mvclight",
+	"version": "1.0.4",
 	"description": "This is a light MVC framework for Node.js based on inversify-express.  For more functionalities use inversify-express.",
-	"main": "index.js",
+	"main": "./mvcnodelight/index.js",
+	"types": "./mvcnodelight/index.d.ts",
 	"scripts": {
 		"build": "npm run ts-build && npm run generate-type",
 		"generate-type": "./node_modules/.bin/tsc -p .",
