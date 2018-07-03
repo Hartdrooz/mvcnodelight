@@ -24,10 +24,6 @@ export abstract class ExpressServer {
 		return this._port;
 	}
 
-	protected set Port(value: number) {
-		this._port = value;
-	}
-
 	constructor() {
 		this._app = express();
 		this._container = new Container();
@@ -38,6 +34,7 @@ export abstract class ExpressServer {
 	}
 
 	// Abstract functions
+	abstract setPort(): number;
 	abstract registerApplicationDependencies(container: Container): void;
 	abstract errorHandler(err: any, req: Request, res: Response, next: NextFunction): void;
 	abstract setViewEngine(app: Express): void;
@@ -54,6 +51,7 @@ export abstract class ExpressServer {
 		this.registerApplicationDependencies(this._container);
 		this.registerDependencies();
 		this.registerMiddleware(this._app);
+		this._port = this.setPort();
 		this.loadControllers();
 
 		this._app.use(bodyParser.json());

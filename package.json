@@ -8,7 +8,7 @@
 		"generate-type": "./node_modules/.bin/tsc -p .",
 		"ts-build": "tsc",
 		"tslint": "tslint -c tslint.json -p tsconfig.json",
-		"test": "jest",
+		"test": "npm run build && jest",
 		"coverage": "jest --coverage --forceExit"
 	},
 	"repository": {

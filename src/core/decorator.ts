@@ -13,10 +13,12 @@ export function controller(path?: string) {
 		if (path) {
 			routePath = path;
 		} else {
+			// By convention the controller if not path present
+			// will be api/[controller]
 			let controllerName = target.name.toLocaleLowerCase();
 			// Remove the controller tag name if present
 			controllerName = controllerName.replace('controller', '');
-			routePath = controllerName;
+			routePath = `api/${controllerName}`;
 		}
 
 		let currentMetadata = {
