@@ -1,13 +1,13 @@
 import { ILoggerService } from './ILoggerService';
 import { injectable, multiInject } from 'inversify';
-import { TYPES, TraceLevel } from '../../core';
+import { FRAMEWORK_TYPES, TraceLevel } from '../../core';
 import { ILogger } from '../../services';
 
 @injectable()
 export class LoggerService implements ILoggerService {
 	private _loggers: ILogger[];
 
-	constructor(@multiInject(TYPES.Logger) args: ILogger[]) {
+	constructor(@multiInject(FRAMEWORK_TYPES.Logger) args: ILogger[]) {
 		this._loggers = args;
 	}
 

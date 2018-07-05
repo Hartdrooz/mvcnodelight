@@ -1,4 +1,4 @@
-import { METADATA_KEY, TYPES, IController, IControllerMetadata } from '../core';
+import { METADATA_KEY, FRAMEWORK_TYPES, IController, IControllerMetadata } from '../core';
 import { Container } from 'inversify';
 
 export class ReflectionApi {
@@ -10,7 +10,7 @@ export class ReflectionApi {
 		Reflect.defineMetadata(METADATA_KEY.controller, [], Reflect);
 	}
 	static getControllersFromContainer(container: Container) {
-		return container.getAll<IController>(TYPES.Controller);
+		return container.getAll<IController>(FRAMEWORK_TYPES.Controller);
 	}
 	static getControllerMetadata(constructor: any): IControllerMetadata {
 		let controllerMetadata: IControllerMetadata = Reflect.getMetadata(

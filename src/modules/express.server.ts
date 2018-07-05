@@ -6,7 +6,7 @@ import { Express, Request, Response, NextFunction } from 'express';
 
 import { ILogger, ILoggerService, LoggerConsole, LoggerService } from '../services';
 import { ReflectionApi } from './reflection';
-import { TYPES, IController } from '../core';
+import { FRAMEWORK_TYPES, IController } from '../core';
 
 export abstract class ExpressServer {
 	private readonly DEFAULT_PORT = 3000;
@@ -40,6 +40,7 @@ export abstract class ExpressServer {
 	abstract setViewEngine(app: Express): void;
 	abstract setStaticFolder(): Array<string>;
 	abstract registerMiddleware(app: Express): void;
+	abstract initApplication(container: Container): Promise<Error>;
 
 	// Protected function
 	protected startServer(): void {
@@ -60,7 +61,7 @@ export abstract class ExpressServer {
 
 		this._app.use((err: any, req: Request, res: Response, next: NextFunction) => {
 			// We log the error
-			const logService = this._container.get<ILoggerService>(TYPES.LogService);
+			const logService = this._container.get<ILoggerService>(FRAMEWORK_TYPES.LogService);
 			logService.error(err);
 			this.errorHandler(err, req, res, next);
 		});
@@ -76,20 +77,28 @@ export abstract class ExpressServer {
 			});
 		}
 
-		// Start the server
-		this._app.listen(this.Port, () => {
-			console.log(`Server listening on port ${this.Port}`);
-		});
+		// Init some services if needed
+		this.initApplication(this._container)
+			.then(error => {
+				if (error) {
+					this.stopApp(error);
+				} else {
+					this.startApp();
+				}
+			})
+			.catch(error => {
+				this.stopApp(error);
+			});
 	}
 
 	private registerDependencies(): void {
 		this._container
-			.bind<ILogger>(TYPES.Logger)
+			.bind<ILogger>(FRAMEWORK_TYPES.Logger)
 			.to(LoggerConsole)
 			.inSingletonScope();
 
 		this._container
-			.bind<ILoggerService>(TYPES.LogService)
+			.bind<ILoggerService>(FRAMEWORK_TYPES.LogService)
 			.to(LoggerService)
 			.inSingletonScope();
 	}
@@ -106,12 +115,12 @@ export abstract class ExpressServer {
 			const name = constructor.name;
 
 			// Validate if this controller is already registerd
-			if (this._container.isBoundNamed(TYPES.Controller, name)) {
+			if (this._container.isBoundNamed(FRAMEWORK_TYPES.Controller, name)) {
 				throw new Error(`Duplicate registered controller ${name}`);
 			}
 
 			this._container
-				.bind(TYPES.Controller)
+				.bind(FRAMEWORK_TYPES.Controller)
 				.to(constructor)
 				.whenTargetNamed(name);
 		});
@@ -124,5 +133,17 @@ export abstract class ExpressServer {
 			controller.registerRoutes(router);
 			this._app.use(metadata.path, router);
 		});
+	}
+
+	private startApp() {
+		// Start the server
+		this._app.listen(this.Port, () => {
+			console.log(`Server listening on port ${this.Port}`);
+		});
+	}
+
+	private stopApp(error: Error) {
+		const loggerService = this._container.get<ILoggerService>(FRAMEWORK_TYPES.LogService);
+		loggerService.error(error);
 	}
 }

@@ -3,7 +3,7 @@ const METADATA_KEY = {
 	httpGet: 'mvc:http-get'
 };
 
-const TYPES = {
+const FRAMEWORK_TYPES = {
 	Logger: Symbol.for('mvc:Logger'),
 	Express: Symbol.for('mvc:Express'),
 	Controller: Symbol.for('mvc:Controllers'),
@@ -17,4 +17,4 @@ const enum TraceLevel {
 	Error
 }
 
-export { METADATA_KEY, TYPES, TraceLevel };
+export { METADATA_KEY, FRAMEWORK_TYPES, TraceLevel };
