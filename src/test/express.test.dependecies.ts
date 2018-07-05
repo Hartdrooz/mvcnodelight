@@ -28,6 +28,10 @@ export class HomeController implements IController {
 }
 
 export class WebServer extends ExpressServer {
+	initApplication(container: Container): Promise<Error> {
+		const promise = Promise.resolve(null);
+		return promise;
+	}
 	setStaticFolder(): string[] {
 		return null;
 	}

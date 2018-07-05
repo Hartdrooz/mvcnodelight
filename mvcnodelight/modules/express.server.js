@@ -39,7 +39,7 @@ class ExpressServer {
         this._app.use(bodyParser.urlencoded({ extended: false }));
         this._app.use((err, req, res, next) => {
             // We log the error
-            const logService = this._container.get(core_1.TYPES.LogService);
+            const logService = this._container.get(core_1.FRAMEWORK_TYPES.LogService);
             logService.error(err);
             this.errorHandler(err, req, res, next);
         });
@@ -52,18 +52,27 @@ class ExpressServer {
                 this._app.use(express.static(f));
             });
         }
-        // Start the server
-        this._app.listen(this.Port, () => {
-            console.log(`Server listening on port ${this.Port}`);
+        // Init some services if needed
+        this.initApplication(this._container)
+            .then(error => {
+            if (error) {
+                this.stopApp(error);
+            }
+            else {
+                this.startApp();
+            }
+        })
+            .catch(error => {
+            this.stopApp(error);
         });
     }
     registerDependencies() {
         this._container
-            .bind(core_1.TYPES.Logger)
+            .bind(core_1.FRAMEWORK_TYPES.Logger)
             .to(services_1.LoggerConsole)
             .inSingletonScope();
         this._container
-            .bind(core_1.TYPES.LogService)
+            .bind(core_1.FRAMEWORK_TYPES.LogService)
             .to(services_1.LoggerService)
             .inSingletonScope();
     }
@@ -76,11 +85,11 @@ class ExpressServer {
         constructors.forEach(constructor => {
             const name = constructor.name;
             // Validate if this controller is already registerd
-            if (this._container.isBoundNamed(core_1.TYPES.Controller, name)) {
+            if (this._container.isBoundNamed(core_1.FRAMEWORK_TYPES.Controller, name)) {
                 throw new Error(`Duplicate registered controller ${name}`);
             }
             this._container
-                .bind(core_1.TYPES.Controller)
+                .bind(core_1.FRAMEWORK_TYPES.Controller)
                 .to(constructor)
                 .whenTargetNamed(name);
         });
@@ -91,6 +100,16 @@ class ExpressServer {
             controller.registerRoutes(router);
             this._app.use(metadata.path, router);
         });
+    }
+    startApp() {
+        // Start the server
+        this._app.listen(this.Port, () => {
+            console.log(`Server listening on port ${this.Port}`);
+        });
+    }
+    stopApp(error) {
+        const loggerService = this._container.get(core_1.FRAMEWORK_TYPES.LogService);
+        loggerService.error(error);
     }
 }
 exports.ExpressServer = ExpressServer;

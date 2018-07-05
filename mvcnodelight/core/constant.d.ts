@@ -2,7 +2,7 @@ declare const METADATA_KEY: {
     controller: string;
     httpGet: string;
 };
-declare const TYPES: {
+declare const FRAMEWORK_TYPES: {
     Logger: symbol;
     Express: symbol;
     Controller: symbol;
@@ -14,4 +14,4 @@ declare const enum TraceLevel {
     Warning = 3,
     Error = 4
 }
-export { METADATA_KEY, TYPES, TraceLevel };
+export { METADATA_KEY, FRAMEWORK_TYPES, TraceLevel };

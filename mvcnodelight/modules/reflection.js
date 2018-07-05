@@ -10,7 +10,7 @@ class ReflectionApi {
         Reflect.defineMetadata(core_1.METADATA_KEY.controller, [], Reflect);
     }
     static getControllersFromContainer(container) {
-        return container.getAll(core_1.TYPES.Controller);
+        return container.getAll(core_1.FRAMEWORK_TYPES.Controller);
     }
     static getControllerMetadata(constructor) {
         let controllerMetadata = Reflect.getMetadata(core_1.METADATA_KEY.controller, constructor);

@@ -15,6 +15,7 @@ export declare class HomeController implements IController {
     registerRoutes(router: Router): void;
 }
 export declare class WebServer extends ExpressServer {
+    initApplication(container: Container): Promise<Error>;
     setStaticFolder(): string[];
     getPort(): number;
     private _ioc;

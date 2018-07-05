@@ -15,8 +15,11 @@ export declare abstract class ExpressServer {
     abstract setViewEngine(app: Express): void;
     abstract setStaticFolder(): Array<string>;
     abstract registerMiddleware(app: Express): void;
+    abstract initApplication(container: Container): Promise<Error>;
     protected startServer(): void;
     private bootStrap;
     private registerDependencies;
     private loadControllers;
+    private startApp;
+    private stopApp;
 }

@@ -51,7 +51,7 @@ let LoggerService = class LoggerService {
 };
 LoggerService = __decorate([
     inversify_1.injectable(),
-    __param(0, inversify_1.multiInject(core_1.TYPES.Logger)),
+    __param(0, inversify_1.multiInject(core_1.FRAMEWORK_TYPES.Logger)),
     __metadata("design:paramtypes", [Array])
 ], LoggerService);
 exports.LoggerService = LoggerService;

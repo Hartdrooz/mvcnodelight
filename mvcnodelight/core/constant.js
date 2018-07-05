@@ -5,11 +5,11 @@ const METADATA_KEY = {
     httpGet: 'mvc:http-get'
 };
 exports.METADATA_KEY = METADATA_KEY;
-const TYPES = {
+const FRAMEWORK_TYPES = {
     Logger: Symbol.for('mvc:Logger'),
     Express: Symbol.for('mvc:Express'),
     Controller: Symbol.for('mvc:Controllers'),
     LogService: Symbol.for('mvc:LogService')
 };
-exports.TYPES = TYPES;
+exports.FRAMEWORK_TYPES = FRAMEWORK_TYPES;
 //# sourceMappingURL=constant.js.map

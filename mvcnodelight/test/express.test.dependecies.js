@@ -33,6 +33,10 @@ HomeController = __decorate([
 ], HomeController);
 exports.HomeController = HomeController;
 class WebServer extends express_server_1.ExpressServer {
+    initApplication(container) {
+        const promise = Promise.resolve(null);
+        return promise;
+    }
     setStaticFolder() {
         return null;
     }
