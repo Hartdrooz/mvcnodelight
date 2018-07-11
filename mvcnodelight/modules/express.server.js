@@ -36,7 +36,7 @@ class ExpressServer {
         this._port = this.setPort();
         this.loadControllers();
         this._app.use(bodyParser.json());
-        this._app.use(bodyParser.urlencoded({ extended: false }));
+        this._app.use(bodyParser.urlencoded({ extended: true }));
         this._app.use((err, req, res, next) => {
             // We log the error
             const logService = this._container.get(core_1.FRAMEWORK_TYPES.LogService);

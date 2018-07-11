@@ -57,7 +57,7 @@ export abstract class ExpressServer {
 		this.loadControllers();
 
 		this._app.use(bodyParser.json());
-		this._app.use(bodyParser.urlencoded({ extended: false }));
+		this._app.use(bodyParser.urlencoded({ extended: true }));
 
 		this._app.use((err: any, req: Request, res: Response, next: NextFunction) => {
 			// We log the error
