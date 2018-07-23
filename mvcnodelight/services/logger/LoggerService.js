@@ -15,44 +15,50 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const inversify_1 = require("inversify");
 const core_1 = require("../../core");
 let LoggerService = class LoggerService {
-    constructor(args) {
+    constructor(args, stackService) {
+        this.stackService = stackService;
         this._loggers = args;
     }
     debug(message) {
-        this.log(message, 1 /* Debug */);
+        this.log(message, 1 /* Debug */, this.getStack());
     }
     info(message) {
-        this.log(message, 2 /* Info */);
+        this.log(message, 2 /* Info */, this.getStack());
     }
     warning(message) {
-        this.log(message, 3 /* Warning */);
+        this.log(message, 3 /* Warning */, this.getStack());
     }
     error(err) {
-        this.log(err, 4 /* Error */);
+        this.log(err, 4 /* Error */, this.getStack(err));
     }
-    log(msg, level) {
+    log(msg, level, stack) {
         this._loggers.forEach(l => {
             switch (level) {
                 case 1 /* Debug */:
-                    l.debug(msg);
+                    l.debug(msg, stack);
                     break;
                 case 2 /* Info */:
-                    l.info(msg);
+                    l.info(msg, stack);
                     break;
                 case 3 /* Warning */:
-                    l.warning(msg);
+                    l.warning(msg, stack);
                     break;
                 case 4 /* Error */:
-                    l.error(msg);
+                    l.error(msg, stack);
                     break;
             }
         });
+    }
+    getStack(error) {
+        const stacks = this.stackService.Trace(error);
+        return stacks[0];
     }
 };
 LoggerService = __decorate([
     inversify_1.injectable(),
     __param(0, inversify_1.multiInject(core_1.FRAMEWORK_TYPES.Logger)),
-    __metadata("design:paramtypes", [Array])
+    __param(1, inversify_1.inject(core_1.FRAMEWORK_TYPES.StackService)),
+    __metadata("design:paramtypes", [Array, Object])
 ], LoggerService);
 exports.LoggerService = LoggerService;
 //# sourceMappingURL=LoggerService.js.map

@@ -7,6 +7,7 @@ declare const FRAMEWORK_TYPES: {
     Express: symbol;
     Controller: symbol;
     LogService: symbol;
+    StackService: symbol;
 };
 declare const enum TraceLevel {
     Debug = 1,

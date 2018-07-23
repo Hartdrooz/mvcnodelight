@@ -7,7 +7,8 @@ const FRAMEWORK_TYPES = {
 	Logger: Symbol.for('mvc:Logger'),
 	Express: Symbol.for('mvc:Express'),
 	Controller: Symbol.for('mvc:Controllers'),
-	LogService: Symbol.for('mvc:LogService')
+	LogService: Symbol.for('mvc:LogService'),
+	StackService: Symbol.for('mvc:StackService')
 };
 
 const enum TraceLevel {
