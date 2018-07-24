@@ -11,6 +11,15 @@ import { FRAMEWORK_TYPES, IController } from '../core';
 export abstract class ExpressServer {
 	private readonly DEFAULT_PORT = 3000;
 
+	private readonly NODE_EVENTS: Array<string> = [
+		'exit',
+		'SIGINT',
+		'SIGUSR1',
+		'SIGUSR2',
+		'uncaughtException',
+		'SIGTERM'
+	];
+
 	private _app: Express;
 	private _container: Container;
 	private _port: number;
@@ -41,6 +50,7 @@ export abstract class ExpressServer {
 	abstract setStaticFolder(): Array<string>;
 	abstract registerMiddleware(app: Express): void;
 	abstract initApplication(container: Container): Promise<Error>;
+	abstract cleanUp(container: Container): void;
 
 	// Protected function
 	protected startServer(): void {
@@ -76,6 +86,8 @@ export abstract class ExpressServer {
 				this._app.use(express.static(f));
 			});
 		}
+
+		this.registerProcessEvents();
 
 		// Init some services if needed
 		this.initApplication(this._container)
@@ -132,6 +144,15 @@ export abstract class ExpressServer {
 			const router = express.Router();
 			controller.registerRoutes(router);
 			this._app.use(metadata.path, router);
+		});
+	}
+
+	private registerProcessEvents() {
+		// Register every process killed possibles
+		this.NODE_EVENTS.forEach(e => {
+			(process as NodeJS.EventEmitter).on(e, () => {
+				this.cleanUp(this._container);
+			});
 		});
 	}
 
