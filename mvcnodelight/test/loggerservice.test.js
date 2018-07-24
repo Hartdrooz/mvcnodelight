@@ -1,9 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
-const TypeMoq = require("typemoq");
 const services_1 = require("../services");
-const stack_1 = require("../services/stack");
 class MockLogger {
     debug(message, stack) {
         this.message = message;
@@ -25,26 +23,14 @@ class MockLogger {
 describe('loogerService', () => {
     let logger;
     let loggerService;
-    let stackService;
     beforeEach(() => {
         const loggers = new Array();
         logger = new MockLogger();
         loggers.push(logger);
-        stackService = TypeMoq.Mock.ofType(stack_1.StackTraceService);
-        loggerService = new services_1.LoggerService(loggers, stackService.object);
-        const stack = {
-            typename: 'mockType',
-            functionname: 'mockFunction',
-            methodName: 'mockMethod',
-            fileName: 'mockFileName',
-            lineNumber: 100,
-            columnNumber: 3
-        };
-        stackService.setup(x => x.stackTrace(null)).returns(() => stack);
+        loggerService = new services_1.LoggerService(loggers);
     });
     afterEach(() => {
         logger = null;
-        stackService = null;
         loggerService = null;
         process.env.TRACE_LEVEL = undefined;
     });

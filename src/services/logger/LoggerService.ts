@@ -1,8 +1,9 @@
+import { StackFrame } from 'stack-trace';
 import { ILoggerService } from './ILoggerService';
 import { injectable, multiInject, inject } from 'inversify';
 import { FRAMEWORK_TYPES, TraceLevel } from '../../core';
 import { ILogger } from '../../services';
-import { IStackTraceService, IStack } from '../stack';
+import { StackTraceService, IStack } from '../stack';
 
 @injectable()
 export class LoggerService implements ILoggerService {
@@ -24,24 +25,21 @@ export class LoggerService implements ILoggerService {
 		}
 	}
 
-	constructor(
-		@multiInject(FRAMEWORK_TYPES.Logger) args: ILogger[],
-		@inject(FRAMEWORK_TYPES.StackService) private stackService: IStackTraceService
-	) {
+	constructor(@multiInject(FRAMEWORK_TYPES.Logger) args: ILogger[]) {
 		this._loggers = args;
 	}
 
-	debug(message: string): void {
-		this.log(message, TraceLevel.Debug, this.getStack());
+	debug(message: string, stackFrames?: StackFrame[]): void {
+		this.log(message, TraceLevel.Debug, this.getStack(stackFrames));
 	}
-	info(message: string): void {
-		this.log(message, TraceLevel.Info, this.getStack());
+	info(message: string, stackFrames?: StackFrame[]): void {
+		this.log(message, TraceLevel.Info, this.getStack(stackFrames));
 	}
-	warning(message: string): void {
-		this.log(message, TraceLevel.Warning, this.getStack());
+	warning(message: string, stackFrames?: StackFrame[]): void {
+		this.log(message, TraceLevel.Warning, this.getStack(stackFrames));
 	}
-	error(err: any): void {
-		this.log(err, TraceLevel.Error, this.getStack(err));
+	error(err: any, stackFrames?: StackFrame[]): void {
+		this.log(err, TraceLevel.Error, this.getStack(stackFrames));
 	}
 
 	private log(msg: any, level: TraceLevel, stack: IStack) {
@@ -69,7 +67,10 @@ export class LoggerService implements ILoggerService {
 		});
 	}
 
-	private getStack(error?: any): IStack {
-		return this.stackService.stackTrace(error);
+	private getStack(stackFrames?: StackFrame[]): IStack {
+		if (stackFrames && stackFrames.length > 0) {
+			return StackTraceService.parseStackTrace(stackFrames);
+		}
+		return null;
 	}
 }

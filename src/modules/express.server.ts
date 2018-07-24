@@ -5,7 +5,6 @@ import * as bodyParser from 'body-parser';
 import { Express, Request, Response, NextFunction } from 'express';
 
 import { ILogger, ILoggerService, LoggerConsole, LoggerService } from '../services';
-import { IStackTraceService, StackTraceService } from '../services/stack';
 import { ReflectionApi } from './reflection';
 import { FRAMEWORK_TYPES, IController } from '../core';
 
@@ -101,11 +100,6 @@ export abstract class ExpressServer {
 		this._container
 			.bind<ILoggerService>(FRAMEWORK_TYPES.LogService)
 			.to(LoggerService)
-			.inSingletonScope();
-
-		this._container
-			.bind<IStackTraceService>(FRAMEWORK_TYPES.StackService)
-			.to(StackTraceService)
 			.inSingletonScope();
 	}
 

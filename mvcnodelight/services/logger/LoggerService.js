@@ -14,9 +14,9 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const inversify_1 = require("inversify");
 const core_1 = require("../../core");
+const stack_1 = require("../stack");
 let LoggerService = class LoggerService {
-    constructor(args, stackService) {
-        this.stackService = stackService;
+    constructor(args) {
         this._loggers = args;
     }
     get TraceLevel() {
@@ -33,17 +33,17 @@ let LoggerService = class LoggerService {
                 return core_1.TraceLevel.Error;
         }
     }
-    debug(message) {
-        this.log(message, core_1.TraceLevel.Debug, this.getStack());
+    debug(message, stackFrames) {
+        this.log(message, core_1.TraceLevel.Debug, this.getStack(stackFrames));
     }
-    info(message) {
-        this.log(message, core_1.TraceLevel.Info, this.getStack());
+    info(message, stackFrames) {
+        this.log(message, core_1.TraceLevel.Info, this.getStack(stackFrames));
     }
-    warning(message) {
-        this.log(message, core_1.TraceLevel.Warning, this.getStack());
+    warning(message, stackFrames) {
+        this.log(message, core_1.TraceLevel.Warning, this.getStack(stackFrames));
     }
-    error(err) {
-        this.log(err, core_1.TraceLevel.Error, this.getStack(err));
+    error(err, stackFrames) {
+        this.log(err, core_1.TraceLevel.Error, this.getStack(stackFrames));
     }
     log(msg, level, stack) {
         this._loggers.forEach(l => {
@@ -69,15 +69,17 @@ let LoggerService = class LoggerService {
             }
         });
     }
-    getStack(error) {
-        return this.stackService.stackTrace(error);
+    getStack(stackFrames) {
+        if (stackFrames && stackFrames.length > 0) {
+            return stack_1.StackTraceService.parseStackTrace(stackFrames);
+        }
+        return null;
     }
 };
 LoggerService = __decorate([
     inversify_1.injectable(),
     __param(0, inversify_1.multiInject(core_1.FRAMEWORK_TYPES.Logger)),
-    __param(1, inversify_1.inject(core_1.FRAMEWORK_TYPES.StackService)),
-    __metadata("design:paramtypes", [Array, Object])
+    __metadata("design:paramtypes", [Array])
 ], LoggerService);
 exports.LoggerService = LoggerService;
 //# sourceMappingURL=LoggerService.js.map

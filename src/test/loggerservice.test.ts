@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import * as TypeMoq from 'typemoq';
 import { LoggerService, ILogger } from '../services';
-import { IStackTraceService, StackTraceService, IStack } from '../services/stack';
+import { StackTraceService, IStack } from '../services/stack';
 
 class MockLogger implements ILogger {
 	public message: string;
@@ -29,28 +29,16 @@ class MockLogger implements ILogger {
 describe('loogerService', () => {
 	let logger: MockLogger;
 	let loggerService: LoggerService;
-	let stackService: TypeMoq.IMock<IStackTraceService>;
 
 	beforeEach(() => {
 		const loggers = new Array<ILogger>();
 		logger = new MockLogger();
 		loggers.push(logger);
-		stackService = TypeMoq.Mock.ofType<IStackTraceService>(StackTraceService);
-		loggerService = new LoggerService(loggers, stackService.object);
-		const stack: IStack = {
-			typename: 'mockType',
-			functionname: 'mockFunction',
-			methodName: 'mockMethod',
-			fileName: 'mockFileName',
-			lineNumber: 100,
-			columnNumber: 3
-		};
-		stackService.setup(x => x.stackTrace(null)).returns(() => stack);
+		loggerService = new LoggerService(loggers);
 	});
 
 	afterEach(() => {
 		logger = null;
-		stackService = null;
 		loggerService = null;
 		process.env.TRACE_LEVEL = undefined;
 	});

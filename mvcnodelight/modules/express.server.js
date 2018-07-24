@@ -5,7 +5,6 @@ const inversify_1 = require("inversify");
 const express = require("express");
 const bodyParser = require("body-parser");
 const services_1 = require("../services");
-const stack_1 = require("../services/stack");
 const reflection_1 = require("./reflection");
 const core_1 = require("../core");
 class ExpressServer {
@@ -75,10 +74,6 @@ class ExpressServer {
         this._container
             .bind(core_1.FRAMEWORK_TYPES.LogService)
             .to(services_1.LoggerService)
-            .inSingletonScope();
-        this._container
-            .bind(core_1.FRAMEWORK_TYPES.StackService)
-            .to(stack_1.StackTraceService)
             .inSingletonScope();
     }
     loadControllers() {
