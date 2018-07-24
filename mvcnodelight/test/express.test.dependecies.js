@@ -33,6 +33,9 @@ HomeController = __decorate([
 ], HomeController);
 exports.HomeController = HomeController;
 class WebServer extends express_server_1.ExpressServer {
+    cleanUp(container) {
+        throw new Error('Method not implemented.');
+    }
     initApplication(container) {
         const promise = Promise.resolve(null);
         return promise;
