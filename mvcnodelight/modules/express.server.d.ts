@@ -3,7 +3,6 @@ import { Container } from 'inversify';
 import { Express, Request, Response, NextFunction } from 'express';
 export declare abstract class ExpressServer {
     private readonly DEFAULT_PORT;
-    private readonly NODE_EVENTS;
     private _app;
     private _container;
     private _port;
@@ -17,12 +16,10 @@ export declare abstract class ExpressServer {
     abstract setStaticFolder(): Array<string>;
     abstract registerMiddleware(app: Express): void;
     abstract initApplication(container: Container): Promise<Error>;
-    abstract cleanUp(container: Container): void;
     protected startServer(): void;
     private bootStrap;
     private registerDependencies;
     private loadControllers;
-    private registerProcessEvents;
     /**
      * This method is protected
      * to be able to override it for

@@ -10,14 +10,6 @@ const core_1 = require("../core");
 class ExpressServer {
     constructor() {
         this.DEFAULT_PORT = 3000;
-        this.NODE_EVENTS = [
-            'exit',
-            'SIGINT',
-            'SIGUSR1',
-            'SIGUSR2',
-            'uncaughtException',
-            'SIGTERM'
-        ];
         this._app = express();
         this._container = new inversify_1.Container();
     }
@@ -60,7 +52,6 @@ class ExpressServer {
                 this._app.use(express.static(f));
             });
         }
-        this.registerProcessEvents();
         // Init some services if needed
         this.initApplication(this._container)
             .then(error => {
@@ -108,14 +99,6 @@ class ExpressServer {
             const router = express.Router();
             controller.registerRoutes(router);
             this._app.use(metadata.path, router);
-        });
-    }
-    registerProcessEvents() {
-        // Register every process killed possibles
-        this.NODE_EVENTS.forEach(e => {
-            process.on(e, () => {
-                this.cleanUp(this._container);
-            });
         });
     }
     /**
