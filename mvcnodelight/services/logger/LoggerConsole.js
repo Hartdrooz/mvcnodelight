@@ -15,17 +15,17 @@ let LoggerConsole = class LoggerConsole {
     constructor() {
         this._log = console.log;
     }
-    debug(message) {
-        this._log(chalk.green(message));
+    debug(message, stack) {
+        this._log(chalk.green(message), stack);
     }
-    info(message) {
-        this._log(chalk.blue(message));
+    info(message, stack) {
+        this._log(chalk.blue(message), stack);
     }
-    warning(message) {
-        this._log(chalk.yellow(message));
+    warning(message, stack) {
+        this._log(chalk.yellow(message), stack);
     }
-    error(err) {
-        this._log(chalk.red(err));
+    error(err, stack) {
+        this._log(chalk.red(err), stack);
     }
 };
 LoggerConsole = __decorate([

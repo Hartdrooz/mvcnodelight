@@ -25,7 +25,7 @@ describe('Testing ExpressServer base class', () => {
 
 	test('it should return port 8080', () => {
 		server.start();
-		expect(server.getPort()).toBe(8080);
+		expect(server.getPort()).toBe(8101);
 	});
 
 	test('container should have dependencies MyService', () => {

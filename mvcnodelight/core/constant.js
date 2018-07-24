@@ -13,4 +13,12 @@ const FRAMEWORK_TYPES = {
     StackService: Symbol.for('mvc:StackService')
 };
 exports.FRAMEWORK_TYPES = FRAMEWORK_TYPES;
+var TraceLevel;
+(function (TraceLevel) {
+    TraceLevel[TraceLevel["Debug"] = 1] = "Debug";
+    TraceLevel[TraceLevel["Info"] = 2] = "Info";
+    TraceLevel[TraceLevel["Warning"] = 3] = "Warning";
+    TraceLevel[TraceLevel["Error"] = 4] = "Error";
+})(TraceLevel || (TraceLevel = {}));
+exports.TraceLevel = TraceLevel;
 //# sourceMappingURL=constant.js.map

@@ -1,8 +1,8 @@
-import { StackFrame } from 'stack-trace';
+import { IStack } from '../stack';
 
 export interface ILogger {
-	debug(message: string, stack?: StackFrame): void;
-	info(message: string, stack?: StackFrame): void;
-	warning(message: string, stack?: StackFrame): void;
-	error(err: any, stack?: StackFrame): void;
+	debug(message: string, stack?: IStack): void;
+	info(message: string, stack?: IStack): void;
+	warning(message: string, stack?: IStack): void;
+	error(err: any, stack?: IStack): void;
 }

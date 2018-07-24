@@ -1,5 +1,6 @@
 import { injectable } from 'inversify';
 import { ILogger } from './ILogger';
+import { IStack } from '../stack';
 const chalk = require('chalk');
 
 @injectable()
@@ -10,16 +11,16 @@ export class LoggerConsole implements ILogger {
 		this._log = console.log;
 	}
 
-	debug(message: string): void {
-		this._log(chalk.green(message));
+	debug(message: string, stack: IStack): void {
+		this._log(chalk.green(message), stack);
 	}
-	info(message: string): void {
-		this._log(chalk.blue(message));
+	info(message: string, stack: IStack): void {
+		this._log(chalk.blue(message), stack);
 	}
-	warning(message: string): void {
-		this._log(chalk.yellow(message));
+	warning(message: string, stack: IStack): void {
+		this._log(chalk.yellow(message), stack);
 	}
-	error(err: any): void {
-		this._log(chalk.red(err));
+	error(err: any, stack: IStack): void {
+		this._log(chalk.red(err), stack);
 	}
 }

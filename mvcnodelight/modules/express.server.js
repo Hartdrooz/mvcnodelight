@@ -106,6 +106,11 @@ class ExpressServer {
             this._app.use(metadata.path, router);
         });
     }
+    /**
+     * This method is protected
+     * to be able to override it for
+     * unit testing
+     */
     startApp() {
         // Start the server
         this._app.listen(this.Port, () => {

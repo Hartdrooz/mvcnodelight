@@ -11,7 +11,7 @@ const FRAMEWORK_TYPES = {
 	StackService: Symbol.for('mvc:StackService')
 };
 
-const enum TraceLevel {
+enum TraceLevel {
 	Debug = 1,
 	Info,
 	Warning,

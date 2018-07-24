@@ -19,39 +19,58 @@ let LoggerService = class LoggerService {
         this.stackService = stackService;
         this._loggers = args;
     }
+    get TraceLevel() {
+        let level = process.env.TRACE_LEVEL || 'ERROR';
+        level = level.toLocaleLowerCase();
+        switch (level) {
+            case 'debug':
+                return core_1.TraceLevel.Debug;
+            case 'info':
+                return core_1.TraceLevel.Info;
+            case 'warning':
+                return core_1.TraceLevel.Warning;
+            default:
+                return core_1.TraceLevel.Error;
+        }
+    }
     debug(message) {
-        this.log(message, 1 /* Debug */, this.getStack());
+        this.log(message, core_1.TraceLevel.Debug, this.getStack());
     }
     info(message) {
-        this.log(message, 2 /* Info */, this.getStack());
+        this.log(message, core_1.TraceLevel.Info, this.getStack());
     }
     warning(message) {
-        this.log(message, 3 /* Warning */, this.getStack());
+        this.log(message, core_1.TraceLevel.Warning, this.getStack());
     }
     error(err) {
-        this.log(err, 4 /* Error */, this.getStack(err));
+        this.log(err, core_1.TraceLevel.Error, this.getStack(err));
     }
     log(msg, level, stack) {
         this._loggers.forEach(l => {
             switch (level) {
-                case 1 /* Debug */:
-                    l.debug(msg, stack);
+                case core_1.TraceLevel.Debug:
+                    if (this.TraceLevel == core_1.TraceLevel.Debug) {
+                        l.debug(msg, stack);
+                    }
                     break;
-                case 2 /* Info */:
-                    l.info(msg, stack);
+                case core_1.TraceLevel.Info:
+                    if (this.TraceLevel <= core_1.TraceLevel.Info) {
+                        l.info(msg, stack);
+                    }
                     break;
-                case 3 /* Warning */:
-                    l.warning(msg, stack);
+                case core_1.TraceLevel.Warning:
+                    if (this.TraceLevel <= core_1.TraceLevel.Warning) {
+                        l.warning(msg, stack);
+                    }
                     break;
-                case 4 /* Error */:
+                case core_1.TraceLevel.Error:
                     l.error(msg, stack);
                     break;
             }
         });
     }
     getStack(error) {
-        const stacks = this.stackService.Trace(error);
-        return stacks[0];
+        return this.stackService.stackTrace(error);
     }
 };
 LoggerService = __decorate([

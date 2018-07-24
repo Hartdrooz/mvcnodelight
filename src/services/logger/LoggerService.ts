@@ -1,13 +1,28 @@
 import { ILoggerService } from './ILoggerService';
 import { injectable, multiInject, inject } from 'inversify';
-import { StackFrame } from 'stack-trace';
 import { FRAMEWORK_TYPES, TraceLevel } from '../../core';
 import { ILogger } from '../../services';
-import { IStackTraceService } from '../stack';
+import { IStackTraceService, IStack } from '../stack';
 
 @injectable()
 export class LoggerService implements ILoggerService {
 	private _loggers: ILogger[];
+
+	private get TraceLevel(): TraceLevel {
+		let level = process.env.TRACE_LEVEL || 'ERROR';
+		level = level.toLocaleLowerCase();
+
+		switch (level) {
+			case 'debug':
+				return TraceLevel.Debug;
+			case 'info':
+				return TraceLevel.Info;
+			case 'warning':
+				return TraceLevel.Warning;
+			default:
+				return TraceLevel.Error;
+		}
+	}
 
 	constructor(
 		@multiInject(FRAMEWORK_TYPES.Logger) args: ILogger[],
@@ -29,17 +44,23 @@ export class LoggerService implements ILoggerService {
 		this.log(err, TraceLevel.Error, this.getStack(err));
 	}
 
-	private log(msg: any, level: TraceLevel, stack: StackFrame) {
+	private log(msg: any, level: TraceLevel, stack: IStack) {
 		this._loggers.forEach(l => {
 			switch (level) {
 				case TraceLevel.Debug:
-					l.debug(msg, stack);
+					if (this.TraceLevel == TraceLevel.Debug) {
+						l.debug(msg, stack);
+					}
 					break;
 				case TraceLevel.Info:
-					l.info(msg, stack);
+					if (this.TraceLevel <= TraceLevel.Info) {
+						l.info(msg, stack);
+					}
 					break;
 				case TraceLevel.Warning:
-					l.warning(msg, stack);
+					if (this.TraceLevel <= TraceLevel.Warning) {
+						l.warning(msg, stack);
+					}
 					break;
 				case TraceLevel.Error:
 					l.error(msg, stack);
@@ -48,8 +69,7 @@ export class LoggerService implements ILoggerService {
 		});
 	}
 
-	private getStack(error?: any): StackFrame {
-		const stacks = this.stackService.Trace(error);
-		return stacks[0];
+	private getStack(error?: any): IStack {
+		return this.stackService.stackTrace(error);
 	}
 }

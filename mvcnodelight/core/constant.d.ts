@@ -9,7 +9,7 @@ declare const FRAMEWORK_TYPES: {
     LogService: symbol;
     StackService: symbol;
 };
-declare const enum TraceLevel {
+declare enum TraceLevel {
     Debug = 1,
     Info = 2,
     Warning = 3,

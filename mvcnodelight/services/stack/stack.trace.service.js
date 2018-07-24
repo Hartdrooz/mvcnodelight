@@ -9,11 +9,27 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const inversify_1 = require("inversify");
 const stackTrace = require("stack-trace");
 let StackTraceService = class StackTraceService {
-    Trace(error) {
+    stackTrace(error) {
+        let stackFrames;
         if (error) {
-            return stackTrace.parse(error);
+            stackFrames = stackTrace.parse(error);
         }
-        return stackTrace.get();
+        else {
+            stackFrames = stackTrace.get();
+        }
+        if (stackFrames.length > 0) {
+            const stackFrame = stackFrames[0];
+            const stack = {
+                typename: stackFrame.getTypeName(),
+                functionname: stackFrame.getFunctionName(),
+                methodName: stackFrame.getMethodName(),
+                fileName: stackFrame.getFileName(),
+                lineNumber: stackFrame.getLineNumber(),
+                columnNumber: stackFrame.getColumnNumber()
+            };
+            return stack;
+        }
+        return null;
     }
 };
 StackTraceService = __decorate([

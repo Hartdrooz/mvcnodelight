@@ -45,7 +45,7 @@ export class WebServer extends ExpressServer {
 	}
 
 	setPort(): number {
-		return 8080;
+		return 8101;
 	}
 
 	registerApplicationDependencies(container: Container): void {
@@ -59,4 +59,8 @@ export class WebServer extends ExpressServer {
 	errorHandler(err: any, req: Request, res: Response, next: NextFunction): void {}
 	setViewEngine(app: Express): void {}
 	registerMiddleware(app: Express): void {}
+
+	// Override the start, it's unit test so no need
+	// to start the server
+	startApp() {}
 }

@@ -47,7 +47,7 @@ class WebServer extends express_server_1.ExpressServer {
         return this._ioc;
     }
     setPort() {
-        return 8080;
+        return 8101;
     }
     registerApplicationDependencies(container) {
         container
@@ -59,6 +59,9 @@ class WebServer extends express_server_1.ExpressServer {
     errorHandler(err, req, res, next) { }
     setViewEngine(app) { }
     registerMiddleware(app) { }
+    // Override the start, it's unit test so no need
+    // to start the server
+    startApp() { }
 }
 exports.WebServer = WebServer;
 //# sourceMappingURL=express.test.dependecies.js.map

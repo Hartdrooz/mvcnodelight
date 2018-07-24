@@ -25,4 +25,5 @@ export declare class WebServer extends ExpressServer {
     errorHandler(err: any, req: Request, res: Response, next: NextFunction): void;
     setViewEngine(app: Express): void;
     registerMiddleware(app: Express): void;
+    startApp(): void;
 }

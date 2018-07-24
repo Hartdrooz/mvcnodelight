@@ -1,7 +1,7 @@
-import { StackFrame } from 'stack-trace';
+import { IStack } from './stack';
 export interface IStackTraceService {
-    Trace(error?: Error): StackFrame[];
+    stackTrace(error?: Error): IStack;
 }
 export declare class StackTraceService implements IStackTraceService {
-    Trace(error?: Error): StackFrame[];
+    stackTrace(error?: Error): IStack;
 }

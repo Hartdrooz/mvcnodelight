@@ -4,6 +4,7 @@ import { IStackTraceService } from '../stack';
 export declare class LoggerService implements ILoggerService {
     private stackService;
     private _loggers;
+    private readonly TraceLevel;
     constructor(args: ILogger[], stackService: IStackTraceService);
     debug(message: string): void;
     info(message: string): void;

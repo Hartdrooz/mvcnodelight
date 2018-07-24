@@ -141,7 +141,12 @@ export abstract class ExpressServer {
 		});
 	}
 
-	private startApp() {
+	/**
+	 * This method is protected
+	 * to be able to override it for
+	 * unit testing
+	 */
+	protected startApp() {
 		// Start the server
 		this._app.listen(this.Port, () => {
 			console.log(`Server listening on port ${this.Port}`);

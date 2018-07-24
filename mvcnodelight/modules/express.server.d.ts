@@ -20,6 +20,11 @@ export declare abstract class ExpressServer {
     private bootStrap;
     private registerDependencies;
     private loadControllers;
-    private startApp;
+    /**
+     * This method is protected
+     * to be able to override it for
+     * unit testing
+     */
+    protected startApp(): void;
     private stopApp;
 }
