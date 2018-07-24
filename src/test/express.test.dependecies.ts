@@ -28,6 +28,9 @@ export class HomeController implements IController {
 }
 
 export class WebServer extends ExpressServer {
+	cleanUp(container: Container): void {
+		throw new Error('Method not implemented.');
+	}
 	initApplication(container: Container): Promise<Error> {
 		const promise = Promise.resolve(null);
 		return promise;
