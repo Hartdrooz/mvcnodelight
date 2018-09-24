@@ -28,6 +28,7 @@ export class HomeController implements IController {
 }
 
 export class WebServer extends ExpressServer {
+	setRoutes(app: Express): void {}
 	cleanUp(container: Container): void {
 		throw new Error('Method not implemented.');
 	}

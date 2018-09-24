@@ -39,6 +39,7 @@ export abstract class ExpressServer {
 	abstract errorHandler(err: any, req: Request, res: Response, next: NextFunction): void;
 	abstract setViewEngine(app: Express): void;
 	abstract setStaticFolder(): Array<string>;
+	abstract setRoutes(app: Express): void;
 	abstract registerMiddleware(app: Express): void;
 	abstract initApplication(container: Container): Promise<Error>;
 
@@ -133,6 +134,10 @@ export abstract class ExpressServer {
 			controller.registerRoutes(router);
 			this._app.use(metadata.path, router);
 		});
+
+		/* Set none conventional routes not using the @Controller */
+
+		this.setRoutes(this._app);
 	}
 
 	/**

@@ -100,6 +100,8 @@ class ExpressServer {
             controller.registerRoutes(router);
             this._app.use(metadata.path, router);
         });
+        /* Set none conventional routes not using the @Controller */
+        this.setRoutes(this._app);
     }
     /**
      * This method is protected

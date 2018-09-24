@@ -33,6 +33,7 @@ HomeController = __decorate([
 ], HomeController);
 exports.HomeController = HomeController;
 class WebServer extends express_server_1.ExpressServer {
+    setRoutes(app) { }
     cleanUp(container) {
         throw new Error('Method not implemented.');
     }
